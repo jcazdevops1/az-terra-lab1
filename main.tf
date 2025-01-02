@@ -4,7 +4,7 @@ required_providers {
 
 azurerm = {
   source = "hashicorp/azurerm"
-  version = "4.0.1"
+  version = "~>3.6"
 }
 }
 }
