@@ -1,0 +1,42 @@
+name: "Terraform Azure Deployment"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  terraform:
+    name: "Terraform Plan and Apply"
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: "Checkout Code"
+        uses: actions/checkout@v3
+
+      # Setup Terraform
+      - name: "Setup Terraform"
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.6
+
+      # Azure Login
+      - name: "Azure Login"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Terraform Init
+      - name: "Terraform Init"
+        run: terraform init
+
+      # Terraform Plan
+      - name: "Terraform Plan"
+        run: terraform plan -out=tfplan
+
+      # Terraform Apply
+      - name: "Terraform Apply"
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve tfplan
