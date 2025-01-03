@@ -14,8 +14,8 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "rg1"
-  location = "East US"
+  name     = "rg2"
+  location = "West India"
 }
 
 resource "azurerm_storage_account" "storage" {
